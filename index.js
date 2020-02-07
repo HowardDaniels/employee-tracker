@@ -1,4 +1,5 @@
-var mysql = require("mysql");
+const inquirer = require("inquirer");
+const mysql = require("mysql");
 var connection = mysql.createConnection({
     host: "localhost",
     port: "3306",
@@ -44,3 +45,4 @@ function readEmployees()
             connection.end();
     });
 }
+
