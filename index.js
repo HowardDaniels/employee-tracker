@@ -12,6 +12,8 @@ connection.connect(function(err){
     console.log("connected at :" + connection.threadId);
    // readColleges();
    readDepartments();
+   readRoles();
+   readEmployees();
 });
 
 function readDepartments()
