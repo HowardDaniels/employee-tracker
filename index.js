@@ -16,7 +16,7 @@ connection.connect(function(err){
 
 function readDepartments()
 {
-    connection.query("SELECT department from department", function(err, res){
+    connection.query("SELECT name from department", function(err, res){
             if(err)
             throw err;
             console.log(res);
