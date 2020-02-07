@@ -56,10 +56,55 @@ function actionPrompt()
     message: "What would you like to do?",
     name: "action",
     choices: ["add company information", "view company information", "update company information"]
-  }
-])
-.then(answers => {
-    console.log(JSON.stringify(answers));
+  }])
+.then(actionChoice => {
+    console.log(JSON.stringify(actionChoice));
+    
+if (actionChoice.action === "add company information"){
+    inquirer
+    .prompt([{
+        type: "list",
+        message: "What would you like to add?",
+        name: "addition",
+        choices: ["department", "role", "employee"]
+    }])
+    .then(additionChoice => {
+        console.log(JSON.stringify(additionChoice));
+
+        if (additionChoice.addition === "department"){
+            
+        }
+        else if (additionChoice.addition === "role"){
+
+        }
+        else if (additionChoice.addition === "employee"){
+
+        }
+    })
+}
+
+else if (actionChoice.action === "view company information"){
+    inquirer
+    .prompt([{
+        type: "list",
+        message: "Would you like to view all of the company information or specific company information?",
+        name: "data",
+        choices: ["all company information", "specific company information"]
+    }])
+    .then()
+}
+
+else if (actionChoice.action === "update company information"){
+    inquirer
+    .prompt([{
+        type: "list",
+        message: "What would you like to update?",
+        name: "data",
+        choices: ["department", "role", "employee"]
+    }])
+    .then()
+}
+
     connection.end();
 })
 }
