@@ -10,7 +10,6 @@ connection.connect(function(err){
     if(err)
     throw err;
     console.log("connected at :" + connection.threadId);
-   // readColleges();
    readDepartments();
    readRoles();
    readEmployees();
