@@ -4,20 +4,42 @@ var connection = mysql.createConnection({
     port: "3306",
     user: "root",
     password: "testtest",
-    database: "employeetracker"
+    database: "employee_tracker_db"
 });
 connection.connect(function(err){
     if(err)
     throw err;
     console.log("connected at :" + connection.threadId);
    // readColleges();
+   readDepartments();
 });
-/*function readColleges()
+
+function readDepartments()
 {
-    connection.query("SELECT name from albany", function(err, res){
+    connection.query("SELECT department from department", function(err, res){
             if(err)
             throw err;
             console.log(res);
             connection.end();
     });
-} */
+}
+
+function readRoles()
+{
+    connection.query("SELECT title from role", function(err, res){
+            if(err)
+            throw err;
+            console.log(res);
+            connection.end();
+    });
+}
+
+function readEmployees()
+{
+    connection.query("SELECT name from employee", function(err, res){
+            if(err)
+            throw err;
+            console.log(res);
+            connection.end();
+    });
+}
