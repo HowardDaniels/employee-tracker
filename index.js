@@ -11,9 +11,11 @@ connection.connect(function(err){
     if(err)
     throw err;
     console.log("connected at :" + connection.threadId);
-   readDepartments();
+    actionPrompt();
+    /*readDepartments();
    readRoles();
-   readEmployees();
+   readEmployees(); */
+
 });
 
 function readDepartments()
@@ -46,3 +48,18 @@ function readEmployees()
     });
 }
 
+function actionPrompt()
+{
+    inquirer
+.prompt([{
+    type: "list",
+    message: "What would you like to do?",
+    name: "action",
+    choices: ["add company information", "view company information", "update company information"]
+  }
+])
+.then(answers => {
+    console.log(answers.action);
+    connection.end();
+})
+}
