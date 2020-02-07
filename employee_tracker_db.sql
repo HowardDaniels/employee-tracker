@@ -6,7 +6,7 @@ USE employee_tracker_db;
 
 CREATE TABLE department(
 id INT,
-department VARCHAR(30),
+name VARCHAR(30),
 PRIMARY KEY (id)
 );
 
