@@ -59,7 +59,7 @@ function actionPrompt()
   }
 ])
 .then(answers => {
-    console.log(answers.action);
+    console.log(JSON.stringify(answers));
     connection.end();
 })
 }
