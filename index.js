@@ -88,10 +88,19 @@ else if (actionChoice.action === "view company information"){
     .prompt([{
         type: "list",
         message: "Would you like to view all of the company information or specific company information?",
-        name: "data",
+        name: "infoToView",
         choices: ["all company information", "specific company information"]
     }])
-    .then()
+    .then(viewChoice => {
+        if (viewChoice.infoToView === "all company information"){
+            readDepartments();
+            readEmployees();
+            readRoles();
+        }
+        else if (additionalChoice.infoToView === "specific company information"){
+
+        }
+    })
 }
 
 else if (actionChoice.action === "update company information"){
