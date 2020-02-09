@@ -64,20 +64,20 @@ if (actionChoice.action === "add company information"){
     inquirer
     .prompt([{
         type: "list",
-        message: "What would you like to add?",
-        name: "addition",
+        message: "What company information would you like to add?",
+        name: "infoToAdd",
         choices: ["department", "role", "employee"]
     }])
     .then(additionChoice => {
         console.log(JSON.stringify(additionChoice));
 
-        if (additionChoice.addition === "department"){
+        if (additionChoice.infoToAdd === "department"){
             
         }
-        else if (additionChoice.addition === "role"){
+        else if (additionChoice.infoToAdd === "role"){
 
         }
-        else if (additionChoice.addition === "employee"){
+        else if (additionChoice.infoToAdd === "employee"){
 
         }
     })
@@ -95,10 +95,10 @@ else if (actionChoice.action === "view company information"){
         if (viewChoice.infoToView === "departments"){
             readDepartments();
         }
-        else if (additionalChoice.infoToView === "roles"){
+        else if (viewChoice.infoToView === "roles"){
             readRoles();
         }
-        else if (additionalChoice.infoToView === "employees"){
+        else if (viewChoice.infoToView === "employees"){
             readEmployees();
         }
     })
@@ -108,11 +108,21 @@ else if (actionChoice.action === "update company information"){
     inquirer
     .prompt([{
         type: "list",
-        message: "What would you like to update?",
-        name: "data",
-        choices: ["department", "role", "employee"]
+        message: "What company information would you like to update?",
+        name: "infoToUpdate",
+        choices: ["departments", "roles", "employees"]
     }])
-    .then()
+    .then(updateChoice => {
+        if (updateChoice.infoToUpdate === "departments"){
+            
+        }
+        else if (updateChoice.infoToUpdate === "roles"){
+            
+        }
+        else if (updateChoice.infoToUpdate === "employees"){
+            
+        }
+    })
 }
 
     connection.end();
