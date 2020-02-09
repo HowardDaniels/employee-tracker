@@ -86,19 +86,20 @@ if (actionChoice.action === "add company information"){
 else if (actionChoice.action === "view company information"){
     inquirer
     .prompt([{
-        type: "list",
-        message: "Would you like to view all of the company information or specific company information?",
+        type: "checkbox",
+        message: "What company information would you like to view?",
         name: "infoToView",
-        choices: ["all company information", "specific company information"]
+        choices: ["departments", "roles", "employees"]
     }])
     .then(viewChoice => {
-        if (viewChoice.infoToView === "all company information"){
+        if (viewChoice.infoToView === "departments"){
             readDepartments();
-            readEmployees();
+        }
+        else if (additionalChoice.infoToView === "roles"){
             readRoles();
         }
-        else if (additionalChoice.infoToView === "specific company information"){
-
+        else if (additionalChoice.infoToView === "employees"){
+            readEmployees();
         }
     })
 }
