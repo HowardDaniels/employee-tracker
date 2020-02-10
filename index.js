@@ -112,7 +112,9 @@ if (actionChoice.action === "add company information"){
                     }
             ])
                 .then(insertRole => {
-                    connection.query("INSERT INTO role (title) VALUES (" + insertRole.roleToAdd + "); INSERT INTO role (salary) VALUES (" + insertRole.roleSalary + "); INSERT INTO role (department_id) VALUES (department.id) WHERE department.name=" + insertRole.roleDepartment, function(err, res){
+                    connection.query("INSERT INTO role (title) VALUES (" + insertRole.roleToAdd + 
+                    "); INSERT INTO role (salary) VALUES (" + insertRole.roleSalary + 
+                    "); INSERT INTO role (department_id) VALUES (department.id) WHERE department.name=" + insertRole.roleDepartment, function(err, res){
                         if(err)
                         throw err;
                         console.log(res);
@@ -148,7 +150,10 @@ if (actionChoice.action === "add company information"){
                     }
             ])
                 .then(insertEmployee => {
-                    connection.query("INSERT INTO employee (first_name) VALUES (" + insertEmployee.employeeFirstName + "); INSERT INTO employee (last_name) VALUES (" + insertEmployee.employeeLastName + "); INSERT INTO employee (role_id) VALUES (role.id) WHERE role.name=" + insertEmployee.employeeRole + "; INSERT INTO EMPLOYEE (manager_id) VALUES (" + insertEmployee.employeeManagerID + ");", function(err, res){
+                    connection.query("INSERT INTO employee (first_name) VALUES (" + insertEmployee.employeeFirstName + 
+                    "); INSERT INTO employee (last_name) VALUES (" + insertEmployee.employeeLastName + 
+                    "); INSERT INTO employee (role_id) VALUES (role.id) WHERE role.name=" + insertEmployee.employeeRole + 
+                    "; INSERT INTO EMPLOYEE (manager_id) VALUES (" + insertEmployee.employeeManagerID + ");", function(err, res){
                         if(err)
                         throw err;
                         console.log(res);
