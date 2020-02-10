@@ -61,6 +61,7 @@ function actionPrompt()
     console.log(JSON.stringify(actionChoice));
     
 if (actionChoice.action === "add company information"){
+
     inquirer
     .prompt([{
         type: "list",
@@ -93,50 +94,78 @@ if (actionChoice.action === "add company information"){
 
         else if (additionChoice.infoToAdd === "role"){
                 inquirer
-                .prompt([{
+                .prompt([
+                    {
                     type: "input",
                     message: "Insert a role to add:",
                     name: "roleToAdd"
-                }])
+                    },
+                    {
+                    type: "input",
+                    message: "Insert a salary for the role (leave out the currency symbol):",
+                    name: "roleSalary"
+                    },
+                    {
+                    type: "input",
+                    message: "Insert a department for the role:",
+                    name: "roleDepartment"
+                    }
+            ])
                 .then(insertRole => {
-                    connection.query("INSERT INTO role (name) VALUES (" + insertRole.roleToAdd + ")", function(err, res){
+                    connection.query("INSERT INTO role (title) VALUES (" + insertRole.roleToAdd + "); INSERT INTO role (salary) VALUES (" + insertRole.roleSalary + "); INSERT INTO role (department_id) VALUES (department.id) WHERE department.name=" + insertRole.roleDepartment, function(err, res){
                         if(err)
                         throw err;
                         console.log(res);
                         connection.end();
+                    });                    
                 });
                     
                 }
                     
-                )
-            
-
-        }
         else if (additionChoice.infoToAdd === "employee"){
 
             inquirer
-                .prompt([{
+                .prompt([
+                    {
                     type: "input",
-                    message: "Insert a role to add:",
-                    name: "employeeToAdd"
-                }])
+                    message: "Insert an employee's first name to add:",
+                    name: "employeeFirstName"
+                    },
+                    { 
+                    type: "input",
+                    message: "Insert an employee's last name to add:",
+                    name: "employeeLastName"   
+                    },
+                    {
+                    type: "input",
+                    message: "Insert an employee's role to add:",
+                    name: "employeeRole"    
+                    },
+                    {
+                    type: "input",
+                    message: "Insert an employee's manager ID to add:",
+                    name: "employeeManagerID"
+                    }
+            ])
                 .then(insertEmployee => {
-                    connection.query("INSERT INTO employee (name) VALUES (" + insertEmployee.employeeToAdd + ")", function(err, res){
+                    connection.query("INSERT INTO employee (first_name) VALUES (" + insertEmployee.employeeFirstName + "); INSERT INTO employee (last_name) VALUES (" + insertEmployee.employeeLastName + "); INSERT INTO employee (role_id) VALUES (role.id) WHERE role.name=" + insertEmployee.employeeRole + "; INSERT INTO EMPLOYEE (manager_id) VALUES (" + insertEmployee.employeeManagerID + ");", function(err, res){
                         if(err)
                         throw err;
                         console.log(res);
                         connection.end();
                 });
-                    
-                }
-                    
-                )
 
-        }
-    })
+                  
+                       
+                    });
+
+                }
+
+            });
 }
 
 else if (actionChoice.action === "view company information"){
+
     inquirer
     .prompt([{
         type: "checkbox",
@@ -154,7 +183,7 @@ else if (actionChoice.action === "view company information"){
         else if (viewChoice.infoToView === "employees"){
             readEmployees();
         }
-    })
+    });
 }
 
 else if (actionChoice.action === "update company information"){
@@ -179,5 +208,5 @@ else if (actionChoice.action === "update company information"){
 }
 
     connection.end();
-})
+});
 }
