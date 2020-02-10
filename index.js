@@ -12,9 +12,6 @@ connection.connect(function(err){
     throw err;
     console.log("connected at :" + connection.threadId);
     actionPrompt();
-    /*readDepartments();
-   readRoles();
-   readEmployees(); */
 
 });
 
@@ -211,6 +208,6 @@ else if (actionChoice.action === "update company information"){
     })
 }
 
-  //  connection.end();
+   connection.end();
 });
 }
