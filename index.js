@@ -72,12 +72,65 @@ if (actionChoice.action === "add company information"){
         console.log(JSON.stringify(additionChoice));
 
         if (additionChoice.infoToAdd === "department"){
-            
+            inquirer
+            .prompt([{
+                type: "input",
+                message: "Insert a department to add:",
+                name: "departmentToAdd"
+            }])
+            .then(insertDepartment => {
+                connection.query("INSERT INTO department (name) VALUES (" + insertDepartment.departmentToAdd + ")", function(err, res){
+                    if(err)
+                    throw err;
+                    console.log(res);
+                    connection.end();
+            });
+                
+            }
+                
+            )
         }
+
         else if (additionChoice.infoToAdd === "role"){
+                inquirer
+                .prompt([{
+                    type: "input",
+                    message: "Insert a role to add:",
+                    name: "roleToAdd"
+                }])
+                .then(insertRole => {
+                    connection.query("INSERT INTO role (name) VALUES (" + insertRole.roleToAdd + ")", function(err, res){
+                        if(err)
+                        throw err;
+                        console.log(res);
+                        connection.end();
+                });
+                    
+                }
+                    
+                )
+            
 
         }
         else if (additionChoice.infoToAdd === "employee"){
+
+            inquirer
+                .prompt([{
+                    type: "input",
+                    message: "Insert a role to add:",
+                    name: "employeeToAdd"
+                }])
+                .then(insertEmployee => {
+                    connection.query("INSERT INTO employee (name) VALUES (" + insertEmployee.employeeToAdd + ")", function(err, res){
+                        if(err)
+                        throw err;
+                        console.log(res);
+                        connection.end();
+                });
+                    
+                }
+                    
+                )
 
         }
     })
