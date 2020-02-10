@@ -20,7 +20,7 @@ function readDepartments()
     connection.query("SELECT name from department", function(err, res){
             if(err)
             throw err;
-            console.log(res);
+           const departments = console.log(res);
           //  connection.end();
     });
 }
@@ -197,12 +197,53 @@ else if (actionChoice.action === "update company information"){
     }])
     .then(updateChoice => {
         if (updateChoice.infoToUpdate === "departments"){
+
+            var departments = [];
+            readDepartments();
             
+            inquirer
+            .prompt([{
+                type: "checkbox",
+                message: "Which of the following would you like to update?",
+                name: "departmentsToUpdate",
+                choices: departments
+            }])
+            .then(
+                
+            )
         }
         else if (updateChoice.infoToUpdate === "roles"){
+
+            var roles = [];
+            readRoles();
+            
+            inquirer
+            .prompt([{
+                type: "checkbox",
+                message: "Which of the following roles would you like to update?",
+                name: "rolestoUpdate",
+                choices: roles
+            }])
+            .then(
+
+            )
             
         }
         else if (updateChoice.infoToUpdate === "employees"){
+
+            var employees = [];
+            readEmployees();
+
+            inquirer
+            .prompt([{
+                type: "checkbox",
+                message: "Which of the following roles would you like to update?",
+                name: "employeestoUpdate",
+                choices: roles
+            }])
+            .then(
+
+            )
             
         }
     })
