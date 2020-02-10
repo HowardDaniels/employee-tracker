@@ -24,7 +24,7 @@ function readDepartments()
             if(err)
             throw err;
             console.log(res);
-            connection.end();
+          //  connection.end();
     });
 }
 
@@ -34,7 +34,7 @@ function readRoles()
             if(err)
             throw err;
             console.log(res);
-            connection.end();
+          //  connection.end();
     });
 }
 
@@ -44,7 +44,7 @@ function readEmployees()
             if(err)
             throw err;
             console.log(res);
-            connection.end();
+           // connection.end();
     });
 }
 
@@ -80,11 +80,12 @@ if (actionChoice.action === "add company information"){
                 name: "departmentToAdd"
             }])
             .then(insertDepartment => {
+                readDepartments();
                 connection.query("INSERT INTO department (name) VALUES (" + insertDepartment.departmentToAdd + ")", function(err, res){
                     if(err)
                     throw err;
                     console.log(res);
-                    connection.end();
+                  //  connection.end();
             });
                 
             }
@@ -112,13 +113,12 @@ if (actionChoice.action === "add company information"){
                     }
             ])
                 .then(insertRole => {
-                    connection.query("INSERT INTO role (title) VALUES (" + insertRole.roleToAdd + 
-                    "); INSERT INTO role (salary) VALUES (" + insertRole.roleSalary + 
-                    "); INSERT INTO role (department_id) VALUES (department.id) WHERE department.name=" + insertRole.roleDepartment, function(err, res){
+                    connection.query("INSERT INTO role (title, salary, department_id) VALUES (" + insertRole.roleToAdd, insertRole.roleSalary, + 
+                    "department.id WHERE department.name=" + insertRole.roleDepartment + ")", function(err, res){
                         if(err)
                         throw err;
                         console.log(res);
-                        connection.end();
+                       // connection.end();
                     });                    
                 });
                     
@@ -150,14 +150,13 @@ if (actionChoice.action === "add company information"){
                     }
             ])
                 .then(insertEmployee => {
-                    connection.query("INSERT INTO employee (first_name) VALUES (" + insertEmployee.employeeFirstName + 
-                    "); INSERT INTO employee (last_name) VALUES (" + insertEmployee.employeeLastName + 
-                    "); INSERT INTO employee (role_id) VALUES (role.id) WHERE role.name=" + insertEmployee.employeeRole + 
-                    "; INSERT INTO EMPLOYEE (manager_id) VALUES (" + insertEmployee.employeeManagerID + ");", function(err, res){
+                    connection.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (" + 
+                    insertEmployee.employeeFirstName, insertEmployee.employeeLastName, insertEmployee.employeeRole, 
+                    insertEmployee.employeeManagerID + ")", function(err, res){
                         if(err)
                         throw err;
                         console.log(res);
-                        connection.end();
+                      //  connection.end();
                 });
 
                   
@@ -212,6 +211,6 @@ else if (actionChoice.action === "update company information"){
     })
 }
 
-    connection.end();
+  //  connection.end();
 });
 }
