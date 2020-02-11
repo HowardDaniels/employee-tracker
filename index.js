@@ -78,11 +78,11 @@ if (actionChoice.action === "add company information"){
             }])
             .then(insertDepartment => {
                 readDepartments();
-                connection.query("INSERT INTO department (name) VALUES (" + insertDepartment.departmentToAdd + ")", function(err, res){
+                connection.query("INSERT INTO department (name) VALUES ('" + insertDepartment.departmentToAdd + "')", function(err, res){
                     if(err)
                     throw err;
                     console.log(res);
-                  //  connection.end();
+                    connection.end();
             });
                 
             }
@@ -110,12 +110,12 @@ if (actionChoice.action === "add company information"){
                     }
             ])
                 .then(insertRole => {
-                    connection.query("INSERT INTO role (title, salary, department_id) VALUES (" + insertRole.roleToAdd, insertRole.roleSalary, + 
-                    "department.id WHERE department.name=" + insertRole.roleDepartment + ")", function(err, res){
+                    connection.query("INSERT INTO role (title, salary, department_id) VALUES (" + (insertRole.roleToAdd).toString(), insertRole.roleSalary, + 
+                    "department.id WHERE department.name='" + insertRole.roleDepartment + "')", function(err, res){
                         if(err)
                         throw err;
                         console.log(res);
-                       // connection.end();
+                        connection.end();
                     });                    
                 });
                     
@@ -148,12 +148,12 @@ if (actionChoice.action === "add company information"){
             ])
                 .then(insertEmployee => {
                     connection.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (" + 
-                    insertEmployee.employeeFirstName, insertEmployee.employeeLastName, insertEmployee.employeeRole, 
+                    (insertEmployee.employeeFirstName).toString(), (insertEmployee.employeeLastName).toString(), (insertEmployee.employeeRole).toString(), 
                     insertEmployee.employeeManagerID + ")", function(err, res){
                         if(err)
                         throw err;
                         console.log(res);
-                      //  connection.end();
+                       connection.end();
                 });
 
                   
@@ -249,6 +249,6 @@ else if (actionChoice.action === "update company information"){
     })
 }
 
-   connection.end();
+//    connection.end();
 });
 }
