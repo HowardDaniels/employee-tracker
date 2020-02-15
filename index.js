@@ -239,10 +239,10 @@ else if (actionChoice.action === "update company information"){
                 type: "checkbox",
                 message: "Which of the following roles would you like to update?",
                 name: "employeestoUpdate",
-                choices: roles
+                choices: employees
             }])
             .then(
-
+                
             )
             
         }
