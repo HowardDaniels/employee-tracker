@@ -20,8 +20,12 @@ function readDepartments()
     connection.query("SELECT name from department", function(err, res){
             if(err)
             throw err;
-           const departments = console.log(res);
+         //  console.log(departments);
+         const departments = resolve(JSON.parse(JSON.stringify(res.name)));
           //  connection.end();
+   
+        //  console.log(JSON.parse(JSON.stringify(res)));
+        // console.log(departments);
     });
 }
 
@@ -199,7 +203,7 @@ else if (actionChoice.action === "update company information"){
         if (updateChoice.infoToUpdate === "departments"){
 
             var departments = [];
-            readDepartments();
+            // departments.push(employee_tracker_db.de)
             
             inquirer
             .prompt([{
@@ -265,3 +269,25 @@ else if (actionChoice.action === "update company information"){
 //    connection.end();
 });
 }
+
+// var viewByLastName = function(){
+//     connection.query("select last_name from employee",function(err,data){
+//         if(err) throw err;
+//         var lastNames=[];
+//         for(var i = 0;i<data.length;i++){
+//             lastNames.push(data[i].last_name);
+//         }
+//         inquirer.prompt([{
+//             type:"list",
+//             message:"which was the last name of the creature?",
+//             name:"lastName",
+//             choices:lastNames
+//         }]).then(function(data){
+//             connection.query("SELECT * from employee where last_name =?", [data.lastName],function(err,data){
+//                 if(err) throw err;
+//                 console.log("here they are my lord");
+//                 console.table(data);
+//             })
+//         })
+//     })
+// }
