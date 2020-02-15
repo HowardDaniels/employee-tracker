@@ -203,7 +203,7 @@ else if (actionChoice.action === "update company information"){
             
             inquirer
             .prompt([{
-                type: "checkbox",
+                type: "list",
                 message: "Which of the following would you like to update?",
                 name: "departmentsToUpdate",
                 choices: departments
@@ -219,7 +219,7 @@ else if (actionChoice.action === "update company information"){
             
             inquirer
             .prompt([{
-                type: "checkbox",
+                type: "list",
                 message: "Which of the following roles would you like to update?",
                 name: "rolestoUpdate",
                 choices: roles
@@ -236,7 +236,7 @@ else if (actionChoice.action === "update company information"){
 
             inquirer
             .prompt([{
-                type: "checkbox",
+                type: "list",
                 message: "Which of the following roles would you like to update?",
                 name: "employeestoUpdate",
                 choices: employees
