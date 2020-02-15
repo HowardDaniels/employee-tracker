@@ -205,10 +205,23 @@ else if (actionChoice.action === "update company information"){
             .prompt([{
                 type: "list",
                 message: "Which of the following would you like to update?",
-                name: "departmentsToUpdate",
+                name: "departmentToUpdate",
                 choices: departments
+            },
+            {
+                type: "input",
+                message: "What would you like to change that department name to?",
+                name: "newDepartmentName"
             }])
-            .then(
+        
+            .then(updatedDept => {
+                connection.query("UPDATE departments SET name = " + updatedDept.newDepartmentName + " WHERE name= " + updatedDept.departmentToUpdate, function(err, res){
+                    if(err)
+                    throw err;
+                    console.log(res);
+                    connection.end();
+                });
+            }
                 
             )
         }
