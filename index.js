@@ -215,7 +215,7 @@ else if (actionChoice.action === "update company information"){
             }])
         
             .then(updatedDept => {
-                connection.query("UPDATE departments SET name = " + updatedDept.newDepartmentName + " WHERE name= " + updatedDept.departmentToUpdate, function(err, res){
+                connection.query("UPDATE departments SET name = " + (updatedDept.newDepartmentName).toString() + " WHERE name= " + (updatedDept.departmentToUpdate).toString(), function(err, res){
                     if(err)
                     throw err;
                     console.log(res);
