@@ -204,6 +204,10 @@ else if (actionChoice.action === "update company information"){
 
             var departments = [];
             // departments.push(employee_tracker_db.de)
+            for(var i = 0;i<data.length;i++){
+            departments.push(data[i].name)
+            };
+            
             
             inquirer
             .prompt([{
