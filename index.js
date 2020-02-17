@@ -204,10 +204,12 @@ else if (actionChoice.action === "update company information"){
 
             var departments = [];
             // departments.push(employee_tracker_db.de)
+
+            connection.query("select name from department", function(err,data){
+                     if(err) throw err;
             for(var i = 0;i<data.length;i++){
             departments.push(data[i].name)
             };
-            
             
             inquirer
             .prompt([{
@@ -223,20 +225,26 @@ else if (actionChoice.action === "update company information"){
             }])
         
             .then(updatedDept => {
-                connection.query("UPDATE departments SET name = " + (updatedDept.newDepartmentName).toString() + " WHERE name= " + (updatedDept.departmentToUpdate).toString(), function(err, res){
+                connection.query("UPDATE department SET name = '" + updatedDept.newDepartmentName + "' WHERE name = '" + updatedDept.departmentToUpdate + "'", function(err, res){
                     if(err)
                     throw err;
                     console.log(res);
                     connection.end();
                 });
-            }
+            })
+        });
                 
-            )
+            
         }
+
         else if (updateChoice.infoToUpdate === "roles"){
 
             var roles = [];
-            readRoles();
+            connection.query("select title from role", function(err,data){
+                if(err) throw err;
+       for(var i = 0;i<data.length;i++){
+       roles.push(data[i])
+       };
             
             inquirer
             .prompt([{
@@ -244,12 +252,36 @@ else if (actionChoice.action === "update company information"){
                 message: "Which of the following roles would you like to update?",
                 name: "rolestoUpdate",
                 choices: roles
+            },
+            {
+                type: "input",
+                message: "What would you like the title of this role to be?",
+                name: "updatedRoleTitle"
+            },
+            {
+                type: "input",
+                message: "What would you like the salary of this role to be?",
+                name: "updatedRoleSalary"
+            },
+            {
+                type: "input",
+                message: "What would you like the department of this role to be?",
+                name: "updatedRoleDepartment"
             }])
-            .then(
+            .then(updatedRole => {
+                connection.query("UPDATE role SET name = '" + updatedDept.newDepartmentName + "' WHERE name = '" + updatedDept.departmentToUpdate + "'", function(err, res){
+                    if(err)
+                    throw err;
+                    console.log(res);
+                    connection.end();
+                });
+            }
 
             )
             
-        }
+                  });
+                }
+
         else if (updateChoice.infoToUpdate === "employees"){
 
             var employees = [];
