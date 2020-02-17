@@ -15,21 +15,20 @@ connection.connect(function(err){
 
 });
 
-function readDepartments()
+function viewDepartments()
 {
-    connection.query("SELECT name from department", function(err, res){
-            if(err)
-            throw err;
-         //  console.log(departments);
-         const departments = resolve(JSON.parse(JSON.stringify(res.name)));
-          //  connection.end();
-   
-        //  console.log(JSON.parse(JSON.stringify(res)));
-        // console.log(departments);
-    });
+    connection.query("select name from departments", function(err,data){
+                if(err) throw err;
+                var departments=[];
+                for(var i = 0;i<data.length;i++){
+                    departments.push(data[i].name);
+                }
+                console.log(departments);
+                console.table(data);
+                })
 }
 
-function readRoles()
+function viewRoles()
 {
     connection.query("SELECT title from role", function(err, res){
             if(err)
@@ -39,7 +38,7 @@ function readRoles()
     });
 }
 
-function readEmployees()
+function viewEmployees()
 {
     connection.query("SELECT name from employee", function(err, res){
             if(err)
@@ -81,7 +80,7 @@ if (actionChoice.action === "add company information"){
                 name: "departmentToAdd"
             }])
             .then(insertDepartment => {
-                readDepartments();
+                viewDepartments();
                 connection.query("INSERT INTO department (name) VALUES ('" + insertDepartment.departmentToAdd + "')", function(err, res){
                     if(err)
                     throw err;
@@ -114,17 +113,38 @@ if (actionChoice.action === "add company information"){
                     }
             ])
                 .then(insertRole => {
-                    connection.query("INSERT INTO role (title, salary, department_id) VALUES (" + (insertRole.roleToAdd).toString(), insertRole.roleSalary, + 
-                    "department.id WHERE department.name='" + insertRole.roleDepartment + "')", function(err, res){
-                        if(err)
-                        throw err;
-                        console.log(res);
-                        connection.end();
-                    });                    
+                    var deptID = 0;
+                    connection.query("SELECT * from department", function(err, res){
+                                
+                        for(var i = 0;i<res.length;i++){
+                             if (res[i].name == insertRole.roleDepartment) {
+                                deptID = res[i].id;
+                                 console.log(deptID);
+                             }
+                             else {
+                                 console.log("--");
+                             }
+                            }
+
+                            console.log(deptID);
+                       
+                            //         }
+          
+                    connection.query("INSERT INTO role (title, salary, department_id) VALUES ('" + insertRole.roleToAdd + "'," + insertRole.roleSalary, 
+                    deptID + ")", function(err2, res2){
+                        if(err2)
+                        throw err2;
+                        console.log(res2);
+                        console.log(deptID);
+                        // connection.end();
+                    }); 
+                    connection.end();
+                });      
                 });
                     
                 }
-                    
+                      
+
         else if (additionChoice.infoToAdd === "employee"){
 
             inquirer
@@ -151,8 +171,8 @@ if (actionChoice.action === "add company information"){
                     }
             ])
                 .then(insertEmployee => {
-                    connection.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (" + 
-                    (insertEmployee.employeeFirstName).toString(), (insertEmployee.employeeLastName).toString(), (insertEmployee.employeeRole).toString(), 
+                    connection.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ('" + 
+                    insertEmployee.employeeFirstName + "','" + insertEmployee.employeeLastName + "','" + insertEmployee.employeeRole + "'," + 
                     insertEmployee.employeeManagerID + ")", function(err, res){
                         if(err)
                         throw err;
@@ -180,18 +200,19 @@ else if (actionChoice.action === "view company information"){
     }])
     .then(viewChoice => {
         if (viewChoice.infoToView === "departments"){
-            readDepartments();
+            viewDepartments();
         }
         else if (viewChoice.infoToView === "roles"){
-            readRoles();
+            viewRoles();
         }
         else if (viewChoice.infoToView === "employees"){
-            readEmployees();
+            viewEmployees();
         }
     });
 }
 
 else if (actionChoice.action === "update company information"){
+
     inquirer
     .prompt([{
         type: "list",
@@ -243,14 +264,14 @@ else if (actionChoice.action === "update company information"){
             connection.query("select title from role", function(err,data){
                 if(err) throw err;
        for(var i = 0;i<data.length;i++){
-       roles.push(data[i])
+       roles.push(data[i].title)
        };
             
             inquirer
             .prompt([{
                 type: "list",
                 message: "Which of the following roles would you like to update?",
-                name: "rolestoUpdate",
+                name: "roletoUpdate",
                 choices: roles
             },
             {
@@ -269,15 +290,15 @@ else if (actionChoice.action === "update company information"){
                 name: "updatedRoleDepartment"
             }])
             .then(updatedRole => {
-                connection.query("UPDATE role SET name = '" + updatedDept.newDepartmentName + "' WHERE name = '" + updatedDept.departmentToUpdate + "'", function(err, res){
+                connection.query("UPDATE role SET title = '" + updatedRole.updatedRoleTitle + "' WHERE title = '" + updatedRole.roletoUpdate + "'", function(err, res){
                     if(err)
                     throw err;
                     console.log(res);
                     connection.end();
                 });
-            }
+            })
 
-            )
+            
             
                   });
                 }
@@ -285,7 +306,11 @@ else if (actionChoice.action === "update company information"){
         else if (updateChoice.infoToUpdate === "employees"){
 
             var employees = [];
-            readEmployees();
+            connection.query("select first_name from employee", function(err,data){
+                if(err) throw err;
+                for(var i = 0;i<data.length;i++){
+                employees.push(data[i].first_name)
+                };
 
             inquirer
             .prompt([{
@@ -298,32 +323,38 @@ else if (actionChoice.action === "update company information"){
                 
             )
             
+        });
         }
-    })
-}
+})
 
 //    connection.end();
+};
+
 });
 }
 
 // var viewByLastName = function(){
-//     connection.query("select last_name from employee",function(err,data){
+//     connection.query("select last_name from employee", function(err,data){
 //         if(err) throw err;
 //         var lastNames=[];
 //         for(var i = 0;i<data.length;i++){
 //             lastNames.push(data[i].last_name);
 //         }
-//         inquirer.prompt([{
+
+//         inquirer
+//         .prompt([{
 //             type:"list",
 //             message:"which was the last name of the creature?",
-//             name:"lastName",
-//             choices:lastNames
-//         }]).then(function(data){
-//             connection.query("SELECT * from employee where last_name =?", [data.lastName],function(err,data){
+//             name: "lastName",
+//             choices: lastNames
+//         }])
+//         .then(function(data){
+//             connection.query("SELECT * from employee where last_name =?", [data.lastName], function(err,data){
 //                 if(err) throw err;
 //                 console.log("here they are my lord");
 //                 console.table(data);
 //             })
+            
 //         })
 //     })
 // }
