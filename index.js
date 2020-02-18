@@ -113,34 +113,32 @@ if (actionChoice.action === "add company information"){
                     }
             ])
                 .then(insertRole => {
-                    var deptID = 0;
-                    connection.query("SELECT * from department", function(err, res){
+                    // var deptID = 0;
+                    // connection.query("SELECT * from department", function(err, res){
                                 
-                        for(var i = 0;i<res.length;i++){
-                             if (res[i].name == insertRole.roleDepartment) {
-                                deptID = res[i].id;
-                                 console.log(deptID);
-                             }
-                             else {
-                                 console.log("--");
-                             }
-                            }
+                    //     for(var i = 0;i<res.length;i++){
+                    //          if (res[i].name == insertRole.roleDepartment) {
+                    //             deptID = res[i].id;
+                    //              console.log(deptID);
+                    //          }
+                    //          else {
+                    //              console.log("--");
+                    //          }
+                    //         }
 
-                            console.log(deptID);
+                    //         console.log(deptID);
                        
                             //         }
           
-                    connection.query("INSERT INTO role (title, salary, department_id) VALUES ('" + insertRole.roleToAdd + "'," + insertRole.roleSalary, 
-                    deptID + ")", function(err2, res2){
-                        if(err2)
-                        throw err2;
-                        console.log(res2);
-                        console.log(deptID);
-                        // connection.end();
+                    connection.query("INSERT INTO role (title, salary, department_id) VALUES ('" + insertRole.roleToAdd + "'", + insertRole.roleSalary, + "(SELECT id from department WHERE name='" + insertRole.roleDepartment + "'))", function(err, res){
+                        if(err)
+                        throw err;
+                        console.log(res);
+                        // console.log(deptID);
+                       connection.end();
                     }); 
-                    connection.end();
                 });      
-                });
+                // });
                     
                 }
                       
@@ -316,10 +314,22 @@ else if (actionChoice.action === "update company information"){
             .prompt([{
                 type: "list",
                 message: "Which of the following roles would you like to update?",
-                name: "employeestoUpdate",
+                name: "employeetoUpdate",
                 choices: employees
             }])
-            .then(
+            .then(updatedEmployee => {
+                connection.query("UPDATE employee SET first_name='" + updatedEmployee.employeetoUpdate + "' WHERE first_name= (first_name, last_name, role_id, manager_id) VALUES ('" + 
+                insertEmployee.employeeFirstName + "','" + insertEmployee.employeeLastName + "','" + insertEmployee.employeeRole + "'," + 
+                insertEmployee.employeeManagerID + ")", function(err, res){
+                    if(err)
+                    throw err;
+                    console.log(res);
+                    connection.end();
+
+                });
+
+
+            }
                 
             )
             
