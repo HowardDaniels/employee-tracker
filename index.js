@@ -17,7 +17,8 @@ connection.connect(function(err){
 
 function viewDepartments()
 {
-    connection.query("select name from departments", function(err,data){
+    console.log("it's working")
+    connection.query("select * from department", function(err,data){
                 if(err) throw err;
                 var departments=[];
                 for(var i = 0;i<data.length;i++){
@@ -40,11 +41,14 @@ function viewRoles()
 
 function viewEmployees()
 {
-    connection.query("SELECT name from employee", function(err, res){
-            if(err)
-            throw err;
-            console.log(res);
-           // connection.end();
+    connection.query("SELECT * from employee", function(err, data){
+        if(err) throw err;
+        var employees=[];
+        for(var i = 0;i<data.length;i++){
+            employees.push(data[i].first_name);
+        }
+        // console.log(employees);
+        console.table(data);
     });
 }
 
@@ -80,7 +84,7 @@ if (actionChoice.action === "add company information"){
                 name: "departmentToAdd"
             }])
             .then(insertDepartment => {
-                viewDepartments();
+                // viewDepartments();
                 connection.query("INSERT INTO department (name) VALUES ('" + insertDepartment.departmentToAdd + "')", function(err, res){
                     if(err)
                     throw err;
@@ -130,7 +134,7 @@ if (actionChoice.action === "add company information"){
                        
                             //         }
           
-                    connection.query("INSERT INTO role (title, salary, department_id) VALUES ('" + insertRole.roleToAdd + "'", + insertRole.roleSalary, + "(SELECT id from department WHERE name='" + insertRole.roleDepartment + "'))", function(err, res){
+                    connection.query("INSERT INTO role (title, salary, department_id) VALUES ( '" + insertRole.roleToAdd + "'," + insertRole.roleSalary + ", (SELECT id FROM employee_tracker_db.department WHERE name='" + insertRole.roleDepartment + "'))", function(err, res){
                         if(err)
                         throw err;
                         console.log(res);
@@ -169,9 +173,7 @@ if (actionChoice.action === "add company information"){
                     }
             ])
                 .then(insertEmployee => {
-                    connection.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ('" + 
-                    insertEmployee.employeeFirstName + "','" + insertEmployee.employeeLastName + "','" + insertEmployee.employeeRole + "'," + 
-                    insertEmployee.employeeManagerID + ")", function(err, res){
+                    connection.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ( '" + insertEmployee.employeeFirstName + "', '" + insertEmployee.employeeLastName + "', (SELECT id FROM employee_tracker_db.role WHERE title='" + insertEmployee.employeeRole + "')," + insertEmployee.employeeManagerID + ")", function(err, res){
                         if(err)
                         throw err;
                         console.log(res);
@@ -191,7 +193,7 @@ else if (actionChoice.action === "view company information"){
 
     inquirer
     .prompt([{
-        type: "checkbox",
+        type: "list",
         message: "What company information would you like to view?",
         name: "infoToView",
         choices: ["departments", "roles", "employees"]
@@ -224,7 +226,7 @@ else if (actionChoice.action === "update company information"){
             var departments = [];
             // departments.push(employee_tracker_db.de)
 
-            connection.query("select name from department", function(err,data){
+            connection.query("select * from department", function(err,data){
                      if(err) throw err;
             for(var i = 0;i<data.length;i++){
             departments.push(data[i].name)
@@ -288,7 +290,7 @@ else if (actionChoice.action === "update company information"){
                 name: "updatedRoleDepartment"
             }])
             .then(updatedRole => {
-                connection.query("UPDATE role SET title = '" + updatedRole.updatedRoleTitle + "' WHERE title = '" + updatedRole.roletoUpdate + "'", function(err, res){
+                connection.query("UPDATE role SET title = '" + updatedRole.updatedRoleTitle + "', salary =" + updatedRole.updatedRoleSalary + ", department_id = (SELECT id from employee_tracker_db.department WHERE name = '" + updatedRole.updatedRoleDepartment + "') WHERE title = '" + updatedRole.roletoUpdate + "'", function(err, res){
                     if(err)
                     throw err;
                     console.log(res);
@@ -304,7 +306,7 @@ else if (actionChoice.action === "update company information"){
         else if (updateChoice.infoToUpdate === "employees"){
 
             var employees = [];
-            connection.query("select first_name from employee", function(err,data){
+            connection.query("select * from employee", function(err,data){
                 if(err) throw err;
                 for(var i = 0;i<data.length;i++){
                 employees.push(data[i].first_name)
@@ -316,11 +318,21 @@ else if (actionChoice.action === "update company information"){
                 message: "Which of the following roles would you like to update?",
                 name: "employeetoUpdate",
                 choices: employees
+            },
+            {
+                type: "input",
+                message: "Which of the following roles would you like to update?",
+                name: "updatedEmployeeFirstName",
+                choices: employees
+            },
+            {
+                type: "input",
+                message: "Which of the following ro"
+
             }])
             .then(updatedEmployee => {
-                connection.query("UPDATE employee SET first_name='" + updatedEmployee.employeetoUpdate + "' WHERE first_name= (first_name, last_name, role_id, manager_id) VALUES ('" + 
-                insertEmployee.employeeFirstName + "','" + insertEmployee.employeeLastName + "','" + insertEmployee.employeeRole + "'," + 
-                insertEmployee.employeeManagerID + ")", function(err, res){
+                connection.query("UPDATE employee SET first_name = " + Fred + ", last_name = "Flintstone", role_id = (SELECT id from employee_tracker_db.role WHERE title = "Full-stack developer"), manager_id = "345" WHERE first_name = "Joe";
+                , function(err, res){
                     if(err)
                     throw err;
                     console.log(res);
