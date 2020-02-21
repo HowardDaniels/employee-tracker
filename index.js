@@ -321,18 +321,26 @@ else if (actionChoice.action === "update company information"){
             },
             {
                 type: "input",
-                message: "Which of the following roles would you like to update?",
-                name: "updatedEmployeeFirstName",
-                choices: employees
+                message: "What would you like to change the first name to?",
+                name: "updatedEmployeeFirstName"
             },
             {
                 type: "input",
-                message: "Which of the following ro"
-
+                message: "What would you like to change the last name to?",
+                name: "updatedEmployeeLastName"
+            },
+            {
+                type: "input",
+                message: "What would you like to change the role to?",
+                name: "updatedEmployeeRole"
+            },
+            {
+                type: "input",
+                message: "What would you like to change the manager ID to?",
+                name: "updatedEmployeeManagerID"
             }])
             .then(updatedEmployee => {
-                connection.query("UPDATE employee SET first_name = " + Fred + ", last_name = "Flintstone", role_id = (SELECT id from employee_tracker_db.role WHERE title = "Full-stack developer"), manager_id = "345" WHERE first_name = "Joe";
-                , function(err, res){
+                connection.query("UPDATE employee SET first_name = '" + updatedEmployee.updatedEmployeeFirstName + "', last_name = '" + updatedEmployee.updatedEmployeeLastName + "', role_id = (SELECT id from employee_tracker_db.role WHERE title = '" + updatedEmployee.updatedEmployeeRole + "'), manager_id = " + updatedEmployee.updatedEmployeeManagerID + " WHERE first_name = '" + updatedEmployee.employeetoUpdate + "'", function(err, res){
                     if(err)
                     throw err;
                     console.log(res);
